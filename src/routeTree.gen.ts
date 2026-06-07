@@ -9,38 +9,188 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TarifsRouteImport } from './routes/tarifs'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as ProfilRouteImport } from './routes/profil'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppelsOffresIndexRouteImport } from './routes/appels-offres.index'
+import { Route as AppelsOffresIdRouteImport } from './routes/appels-offres.$id'
 
+const TarifsRoute = TarifsRouteImport.update({
+  id: '/tarifs',
+  path: '/tarifs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfilRoute = ProfilRouteImport.update({
+  id: '/profil',
+  path: '/profil',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssistantRoute = AssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppelsOffresIndexRoute = AppelsOffresIndexRouteImport.update({
+  id: '/appels-offres/',
+  path: '/appels-offres/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppelsOffresIdRoute = AppelsOffresIdRouteImport.update({
+  id: '/appels-offres/$id',
+  path: '/appels-offres/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
+  '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
+  '/profil': typeof ProfilRoute
+  '/register': typeof RegisterRoute
+  '/tarifs': typeof TarifsRoute
+  '/appels-offres/$id': typeof AppelsOffresIdRoute
+  '/appels-offres/': typeof AppelsOffresIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
+  '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
+  '/profil': typeof ProfilRoute
+  '/register': typeof RegisterRoute
+  '/tarifs': typeof TarifsRoute
+  '/appels-offres/$id': typeof AppelsOffresIdRoute
+  '/appels-offres': typeof AppelsOffresIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
+  '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
+  '/profil': typeof ProfilRoute
+  '/register': typeof RegisterRoute
+  '/tarifs': typeof TarifsRoute
+  '/appels-offres/$id': typeof AppelsOffresIdRoute
+  '/appels-offres/': typeof AppelsOffresIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/assistant'
+    | '/dashboard'
+    | '/login'
+    | '/profil'
+    | '/register'
+    | '/tarifs'
+    | '/appels-offres/$id'
+    | '/appels-offres/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/assistant'
+    | '/dashboard'
+    | '/login'
+    | '/profil'
+    | '/register'
+    | '/tarifs'
+    | '/appels-offres/$id'
+    | '/appels-offres'
+  id:
+    | '__root__'
+    | '/'
+    | '/assistant'
+    | '/dashboard'
+    | '/login'
+    | '/profil'
+    | '/register'
+    | '/tarifs'
+    | '/appels-offres/$id'
+    | '/appels-offres/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AssistantRoute: typeof AssistantRoute
+  DashboardRoute: typeof DashboardRoute
+  LoginRoute: typeof LoginRoute
+  ProfilRoute: typeof ProfilRoute
+  RegisterRoute: typeof RegisterRoute
+  TarifsRoute: typeof TarifsRoute
+  AppelsOffresIdRoute: typeof AppelsOffresIdRoute
+  AppelsOffresIndexRoute: typeof AppelsOffresIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/tarifs': {
+      id: '/tarifs'
+      path: '/tarifs'
+      fullPath: '/tarifs'
+      preLoaderRoute: typeof TarifsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profil': {
+      id: '/profil'
+      path: '/profil'
+      fullPath: '/profil'
+      preLoaderRoute: typeof ProfilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assistant': {
+      id: '/assistant'
+      path: '/assistant'
+      fullPath: '/assistant'
+      preLoaderRoute: typeof AssistantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +198,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/appels-offres/': {
+      id: '/appels-offres/'
+      path: '/appels-offres'
+      fullPath: '/appels-offres/'
+      preLoaderRoute: typeof AppelsOffresIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/appels-offres/$id': {
+      id: '/appels-offres/$id'
+      path: '/appels-offres/$id'
+      fullPath: '/appels-offres/$id'
+      preLoaderRoute: typeof AppelsOffresIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AssistantRoute: AssistantRoute,
+  DashboardRoute: DashboardRoute,
+  LoginRoute: LoginRoute,
+  ProfilRoute: ProfilRoute,
+  RegisterRoute: RegisterRoute,
+  TarifsRoute: TarifsRoute,
+  AppelsOffresIdRoute: AppelsOffresIdRoute,
+  AppelsOffresIndexRoute: AppelsOffresIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
