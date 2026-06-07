@@ -82,11 +82,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "AO Insights Africa — Intelligence sur les Appels d'Offres" },
       { name: "description", content: "Plateforme de veille et copilote IA sur les appels d'offres en Afrique de l'Ouest." },
       { name: "author", content: "Gunguë Consulting" },
-      { property: "og:title", content: "AO Insights Africa" },
-      { property: "og:description", content: "Trouvez. Analysez. Remportez. Le copilote de soumission pour consultants, PME et ONG ouest-africains." },
+      { property: "og:title", content: "AO Insights Africa — Intelligence sur les Appels d'Offres" },
+      { property: "og:description", content: "Plateforme de veille et copilote IA sur les appels d'offres en Afrique de l'Ouest." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "AO Insights Africa — Intelligence sur les Appels d'Offres" },
+      { name: "twitter:description", content: "Plateforme de veille et copilote IA sur les appels d'offres en Afrique de l'Ouest." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4f4cac72-d264-42db-a25a-3570394ecda1/id-preview-379b8cd4--2c66bcae-3e01-4264-ac74-10bda65f558a.lovable.app-1780839293979.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4f4cac72-d264-42db-a25a-3570394ecda1/id-preview-379b8cd4--2c66bcae-3e01-4264-ac74-10bda65f558a.lovable.app-1780839293979.png" },
     ],
     links: [
       {
