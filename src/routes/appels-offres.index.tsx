@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { AOCard } from "@/components/ao-card";
@@ -160,10 +160,10 @@ function ListPage() {
         {/* Grid */}
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {visible.map((ao, i) => (
-            <>
-              <AOCard key={ao.id} ao={ao} />
+            <Fragment key={ao.id}>
+              <AOCard ao={ao} />
               {!user && i === 2 && (
-                <div key="banner" className="sm:col-span-2 lg:col-span-3 my-2 rounded-xl bg-hero-gradient text-white p-8 flex flex-wrap items-center justify-between gap-4 shadow-elegant">
+                <div className="sm:col-span-2 lg:col-span-3 my-2 rounded-xl bg-hero-gradient text-white p-8 flex flex-wrap items-center justify-between gap-4 shadow-elegant">
                   <div>
                     <h3 className="font-display text-xl font-semibold">Connectez-vous pour voir tous les AO</h3>
                     <p className="text-sm text-white/75 mt-1">Accès complet à la veille, filtres avancés et alertes personnalisées.</p>
@@ -178,7 +178,7 @@ function ListPage() {
                   </div>
                 </div>
               )}
-            </>
+            </Fragment>
           ))}
         </div>
 
