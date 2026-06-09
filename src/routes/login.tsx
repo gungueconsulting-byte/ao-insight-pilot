@@ -13,7 +13,7 @@ export const Route = createFileRoute("/login")({
 });
 
 function Login() {
-  const { signIn } = useAuth();
+  const { signIn, resetPassword } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,6 +31,16 @@ function Login() {
     }
   };
 
+  const forgot = async () => {
+    if (!email) {
+      toast.error("Saisissez votre email puis cliquez à nouveau sur « Mot de passe oublié ».");
+      return;
+    }
+    const { error } = await resetPassword(email);
+    if (error) toast.error(error);
+    else toast.success("Email de réinitialisation envoyé. Vérifiez votre boîte de réception.");
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
@@ -40,7 +50,13 @@ function Login() {
           <p className="text-sm text-muted-foreground mt-1">Connectez-vous pour continuer.</p>
           <form onSubmit={submit} className="mt-6 space-y-4">
             <div><Label>Email</Label><Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="mt-1" /></div>
-            <div><Label>Mot de passe</Label><Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="mt-1" /></div>
+            <div>
+              <Label>Mot de passe</Label>
+              <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="mt-1" />
+              <button type="button" onClick={forgot} className="mt-2 text-xs text-accent hover:underline">
+                Mot de passe oublié ?
+              </button>
+            </div>
             <Button type="submit" disabled={loading} className="w-full bg-primary hover:bg-primary-glow">{loading ? "Connexion…" : "Se connecter"}</Button>
           </form>
           <p className="mt-6 text-sm text-muted-foreground text-center">
