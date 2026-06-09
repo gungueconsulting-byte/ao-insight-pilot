@@ -9,6 +9,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/lib/auth";
 import { PAYS_LIST, SECTEUR_LIST, TYPE_LIST } from "@/lib/mock-aos";
 import { toast } from "sonner";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Lock } from "lucide-react";
 
 export const Route = createFileRoute("/profil")({
   head: () => ({ meta: [{ title: "Mon profil — AO Insights Africa" }] }),
@@ -52,12 +54,76 @@ function Profil() {
             {step < 3 ? (
               <Button onClick={() => setStep(step + 1)}>Continuer</Button>
             ) : (
-              <Button onClick={() => toast.success("Profil enregistré")} className="bg-gold-gradient text-accent-foreground hover:opacity-95">Enregistrer</Button>
+              <Button
+                onClick={() => {
+                  if (typeof window !== "undefined") localStorage.setItem("ao_profile_setup", "1");
+                  toast.success("Profil enregistré");
+                }}
+                className="bg-gold-gradient text-accent-foreground hover:opacity-95"
+              >
+                Enregistrer
+              </Button>
             )}
           </div>
         </div>
+
+        <SecuritySection />
       </div>
       <SiteFooter />
+    </div>
+  );
+}
+
+function SecuritySection() {
+  const { updatePassword } = useAuth();
+  const [open, setOpen] = useState(false);
+  const [current, setCurrent] = useState("");
+  const [next, setNext] = useState("");
+  const [confirm, setConfirm] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const submit = async () => {
+    if (next.length < 6) return toast.error("6 caractères minimum.");
+    if (next !== confirm) return toast.error("Les mots de passe ne correspondent pas.");
+    setLoading(true);
+    const { error } = await updatePassword(current, next);
+    setLoading(false);
+    if (error) return toast.error(error);
+    toast.success("Mot de passe mis à jour.");
+    setOpen(false);
+    setCurrent("");
+    setNext("");
+    setConfirm("");
+  };
+
+  return (
+    <div className="mt-8 rounded-xl border border-border bg-card p-7 shadow-card-soft">
+      <h2 className="font-display text-lg font-semibold inline-flex items-center gap-2">
+        <Lock className="h-4 w-4 text-accent" /> Sécurité du compte
+      </h2>
+      <p className="text-sm text-muted-foreground mt-1">Gérez votre mot de passe et la sécurité de votre compte.</p>
+      <Button variant="outline" className="mt-4" onClick={() => setOpen(true)}>
+        Modifier mon mot de passe
+      </Button>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Modifier mon mot de passe</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <div><Label>Mot de passe actuel</Label><Input type="password" value={current} onChange={(e) => setCurrent(e.target.value)} className="mt-1" /></div>
+            <div><Label>Nouveau mot de passe</Label><Input type="password" value={next} onChange={(e) => setNext(e.target.value)} className="mt-1" /></div>
+            <div><Label>Confirmation du nouveau mot de passe</Label><Input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} className="mt-1" /></div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setOpen(false)}>Annuler</Button>
+            <Button onClick={submit} disabled={loading || !current || !next} className="bg-primary hover:bg-primary-glow">
+              {loading ? "Mise à jour…" : "Mettre à jour"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
