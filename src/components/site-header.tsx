@@ -23,10 +23,19 @@ function Logo() {
   );
 }
 
+function toTitleCase(s: string) {
+  return s
+    .toLocaleLowerCase()
+    .split(/(\s|-)/)
+    .map((part) => (part.length > 0 && /[a-zà-ÿ]/i.test(part[0]) ? part[0].toLocaleUpperCase() + part.slice(1) : part))
+    .join("");
+}
+
 export function SiteHeader() {
   const { user, firstName, plan, signOut } = useAuth();
   const navigate = useNavigate();
   const path = useRouterState({ select: (s) => s.location.pathname });
+  const displayName = toTitleCase(firstName || "");
 
   const navLink = (to: string, label: string) => (
     <Link
@@ -64,10 +73,14 @@ export function SiteHeader() {
                     <div className="h-7 w-7 rounded-full bg-hero-gradient text-white flex items-center justify-center text-xs font-semibold">
                       {firstName.slice(0, 1).toUpperCase() || "U"}
                     </div>
-                    <span className="hidden sm:inline text-sm font-medium">{firstName}</span>
-                    <span className="hidden sm:inline text-[10px] font-semibold px-1.5 py-0.5 rounded bg-accent/15 text-accent uppercase">
+                    <span className="hidden sm:inline text-sm font-medium">{displayName}</span>
+                    <Link
+                      to="/tarifs"
+                      onClick={(e) => e.stopPropagation()}
+                      className="hidden sm:inline text-[10px] font-semibold px-1.5 py-0.5 rounded bg-accent/15 text-accent uppercase hover:bg-accent/25 transition-colors"
+                    >
                       {plan}
-                    </span>
+                    </Link>
                     <ChevronDown className="h-3 w-3 text-muted-foreground" />
                   </button>
                 </DropdownMenuTrigger>
