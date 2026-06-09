@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TarifsRouteImport } from './routes/tarifs'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ProfilRouteImport } from './routes/profil'
 import { Route as LoginRouteImport } from './routes/login'
@@ -22,6 +23,11 @@ import { Route as AppelsOffresIdRouteImport } from './routes/appels-offres.$id'
 const TarifsRoute = TarifsRouteImport.update({
   id: '/tarifs',
   path: '/tarifs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegisterRoute = RegisterRouteImport.update({
@@ -72,6 +78,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/profil': typeof ProfilRoute
   '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/tarifs': typeof TarifsRoute
   '/appels-offres/$id': typeof AppelsOffresIdRoute
   '/appels-offres/': typeof AppelsOffresIndexRoute
@@ -83,6 +90,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/profil': typeof ProfilRoute
   '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/tarifs': typeof TarifsRoute
   '/appels-offres/$id': typeof AppelsOffresIdRoute
   '/appels-offres': typeof AppelsOffresIndexRoute
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/profil': typeof ProfilRoute
   '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/tarifs': typeof TarifsRoute
   '/appels-offres/$id': typeof AppelsOffresIdRoute
   '/appels-offres/': typeof AppelsOffresIndexRoute
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/profil'
     | '/register'
+    | '/reset-password'
     | '/tarifs'
     | '/appels-offres/$id'
     | '/appels-offres/'
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/profil'
     | '/register'
+    | '/reset-password'
     | '/tarifs'
     | '/appels-offres/$id'
     | '/appels-offres'
@@ -130,6 +141,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/profil'
     | '/register'
+    | '/reset-password'
     | '/tarifs'
     | '/appels-offres/$id'
     | '/appels-offres/'
@@ -142,6 +154,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   ProfilRoute: typeof ProfilRoute
   RegisterRoute: typeof RegisterRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   TarifsRoute: typeof TarifsRoute
   AppelsOffresIdRoute: typeof AppelsOffresIdRoute
   AppelsOffresIndexRoute: typeof AppelsOffresIndexRoute
@@ -154,6 +167,13 @@ declare module '@tanstack/react-router' {
       path: '/tarifs'
       fullPath: '/tarifs'
       preLoaderRoute: typeof TarifsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/register': {
@@ -222,6 +242,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   ProfilRoute: ProfilRoute,
   RegisterRoute: RegisterRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   TarifsRoute: TarifsRoute,
   AppelsOffresIdRoute: AppelsOffresIdRoute,
   AppelsOffresIndexRoute: AppelsOffresIndexRoute,
@@ -229,3 +250,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
