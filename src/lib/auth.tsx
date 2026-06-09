@@ -13,6 +13,8 @@ interface AuthCtx {
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
   signUp: (email: string, password: string, firstName: string, lastName: string) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
+  resetPassword: (email: string) => Promise<{ error: string | null }>;
+  updatePassword: (currentPassword: string, newPassword: string) => Promise<{ error: string | null }>;
 }
 
 const AuthContext = createContext<AuthCtx | null>(null);
@@ -68,6 +70,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         },
         async signOut() {
           await supabase.auth.signOut();
+        },
+        async resetPassword(email) {
+          const redirectTo =
+            typeof window !== "undefined" ? `${window.location.origin}/reset-password` : undefined;
+          const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
+          return { error: error?.message ?? null };
+        },
+        async updatePassword(currentPassword, newPassword) {
+          const email = user?.email;
+          if (!email) return { error: "Utilisateur non connecté" };
+          const { error: reauthErr } = await supabase.auth.signInWithPassword({
+            email,
+            password: currentPassword,
+          });
+          if (reauthErr) return { error: "Mot de passe actuel incorrect" };
+          const { error } = await supabase.auth.updateUser({ password: newPassword });
+          return { error: error?.message ?? null };
         },
       }}
     >
