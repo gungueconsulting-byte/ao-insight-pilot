@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,7 @@ import { useAuth } from "@/lib/auth";
 import { useSavedAOs } from "@/lib/saved-aos";
 import { MOCK_AOS, daysUntil, formatDate } from "@/lib/mock-aos";
 import { Activity, AlertCircle, Bell, Bookmark, FileText, Plus, Trash2, TrendingUp } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard — AO Insights Africa" }] }),
@@ -17,22 +18,40 @@ function Dashboard() {
   const { user, firstName, plan, loading } = useAuth();
   const { ids, remove } = useSavedAOs();
   const navigate = useNavigate();
+  const [profileSetup, setProfileSetup] = useState(false);
 
   useEffect(() => {
     if (!loading && !user) navigate({ to: "/login" });
   }, [loading, user, navigate]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setProfileSetup(localStorage.getItem("ao_profile_setup") === "1");
+    }
+  }, []);
 
   if (!user) return null;
 
   const savedAOs = ids.map((id) => MOCK_AOS.find((a) => a.id === id)).filter(Boolean) as typeof MOCK_AOS;
   const urgent = savedAOs.filter((a) => daysUntil(a.deadline) <= 7);
 
-  const stats = [
+  const hasSaved = savedAOs.length > 0;
+  const stats: Array<{ label: string; value: React.ReactNode; icon: any; color: string; tooltip?: string }> = [
     { label: "AO sauvegardés", value: savedAOs.length, icon: Bookmark, color: "text-secondary" },
     { label: "Deadline < 7j", value: urgent.length, icon: AlertCircle, color: "text-destructive" },
     { label: "Documents générés", value: 0, icon: FileText, color: "text-accent" },
-    { label: "Score moyen", value: "78%", icon: TrendingUp, color: "text-success" },
+    {
+      label: "Score moyen",
+      value: hasSaved ? "78%" : "—",
+      icon: TrendingUp,
+      color: "text-success",
+      tooltip: hasSaved ? undefined : "Complétez votre profil pour activer le scoring",
+    },
   ];
+
+  const displayName = (firstName || "")
+    .toLocaleLowerCase()
+    .replace(/(^|[\s-])([a-zà-ÿ])/g, (_, p, c) => p + c.toLocaleUpperCase());
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -40,25 +59,37 @@ function Dashboard() {
       <div className="mx-auto max-w-7xl w-full px-4 sm:px-6 lg:px-8 py-10 flex-1">
         <div className="flex items-center justify-between flex-wrap gap-4 mb-8">
           <div>
-            <h1 className="font-display text-3xl font-bold">Bonjour {firstName} 👋</h1>
+            <h1 className="font-display text-3xl font-bold">Bonjour {displayName} 👋</h1>
             <p className="text-muted-foreground mt-1">Voici ce qui vous attend aujourd'hui.</p>
           </div>
-          <span className="text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-accent/15 text-accent">
+          <Link to="/tarifs" className="text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-accent/15 text-accent hover:bg-accent/25 transition-colors">
             Plan {plan}
-          </span>
+          </Link>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-10">
-          {stats.map((s) => (
-            <div key={s.label} className="rounded-xl border border-border bg-card p-5 shadow-card-soft">
-              <div className="flex items-center justify-between">
-                <p className="text-xs uppercase tracking-widest text-muted-foreground">{s.label}</p>
-                <s.icon className={`h-4 w-4 ${s.color}`} />
-              </div>
-              <p className="mt-2 font-display text-3xl font-bold">{s.value}</p>
-            </div>
-          ))}
-        </div>
+        <TooltipProvider delayDuration={150}>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-10">
+            {stats.map((s) => {
+              const card = (
+                <div className="rounded-xl border border-border bg-card p-5 shadow-card-soft h-full">
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs uppercase tracking-widest text-muted-foreground">{s.label}</p>
+                    <s.icon className={`h-4 w-4 ${s.color}`} />
+                  </div>
+                  <p className="mt-2 font-display text-3xl font-bold">{s.value}</p>
+                </div>
+              );
+              return s.tooltip ? (
+                <Tooltip key={s.label}>
+                  <TooltipTrigger asChild><div className="cursor-help">{card}</div></TooltipTrigger>
+                  <TooltipContent>{s.tooltip}</TooltipContent>
+                </Tooltip>
+              ) : (
+                <div key={s.label}>{card}</div>
+              );
+            })}
+          </div>
+        </TooltipProvider>
 
         <div className="grid gap-6 lg:grid-cols-3">
           <div className="lg:col-span-2 rounded-xl border border-border bg-card p-6 shadow-card-soft">
@@ -96,11 +127,20 @@ function Dashboard() {
               <div className="flex items-center justify-between mb-3">
                 <h2 className="font-display text-base font-semibold inline-flex items-center gap-2"><Bell className="h-4 w-4 text-accent" /> Alertes</h2>
               </div>
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-center justify-between p-2 rounded bg-muted/50"><span>Santé · Sénégal</span><span className="text-xs text-success">Actif</span></li>
-                <li className="flex items-center justify-between p-2 rounded bg-muted/50"><span>Numérique · Côte d'Ivoire</span><span className="text-xs text-success">Actif</span></li>
-              </ul>
-              <Button variant="outline" size="sm" className="w-full mt-3"><Plus className="h-3 w-3 mr-1" /> Ajouter une alerte</Button>
+              {profileSetup ? (
+                <>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-center justify-between p-2 rounded bg-muted/50"><span>Santé · Sénégal</span><span className="text-xs text-success">Actif</span></li>
+                    <li className="flex items-center justify-between p-2 rounded bg-muted/50"><span>Numérique · Côte d'Ivoire</span><span className="text-xs text-success">Actif</span></li>
+                  </ul>
+                  <Button variant="outline" size="sm" className="w-full mt-3"><Plus className="h-3 w-3 mr-1" /> Ajouter une alerte</Button>
+                </>
+              ) : (
+                <div className="text-sm text-muted-foreground py-4 text-center">
+                  <p>Configurez vos premières alertes</p>
+                  <Link to="/profil" className="mt-2 inline-block text-secondary hover:underline text-xs font-medium">Aller au profil →</Link>
+                </div>
+              )}
             </div>
 
             <div className="rounded-xl border border-border bg-card p-6 shadow-card-soft">
