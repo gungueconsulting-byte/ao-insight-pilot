@@ -63,10 +63,9 @@ function Tarifs() {
     setOpen(true);
   };
 
-  const contactExpert = () => {
-    window.location.href =
-      "mailto:oumar.nguirane@gungueconsulting.com?subject=" +
-      encodeURIComponent("Demande plan Expert - AO Insights Africa");
+  const submitExpert = () => {
+    setExpertConfirmed(true);
+    setExpertForm({ nom: "", email: "", message: "" });
   };
 
   const submit = () => {
