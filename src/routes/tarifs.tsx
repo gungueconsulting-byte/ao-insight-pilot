@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Textarea } from "@/components/ui/textarea";
 import { Check, X } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/lib/auth";
@@ -43,6 +44,9 @@ function Tarifs() {
   const [open, setOpen] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const [form, setForm] = useState({ prenom: "", email: "", phone: "" });
+  const [expertOpen, setExpertOpen] = useState(false);
+  const [expertConfirmed, setExpertConfirmed] = useState(false);
+  const [expertForm, setExpertForm] = useState({ nom: "", email: "", message: "" });
 
   const startFree = () => {
     if (user) navigate({ to: "/dashboard" });
@@ -59,10 +63,9 @@ function Tarifs() {
     setOpen(true);
   };
 
-  const contactExpert = () => {
-    window.location.href =
-      "mailto:oumar.nguirane@gungueconsulting.com?subject=" +
-      encodeURIComponent("Demande plan Expert - AO Insights Africa");
+  const submitExpert = () => {
+    setExpertConfirmed(true);
+    setExpertForm({ nom: "", email: "", message: "" });
   };
 
   const submit = () => {
@@ -119,7 +122,7 @@ function Tarifs() {
       subtitle: "Pour les acteurs qui veulent un accompagnement sur mesure",
       featured: false,
       cta: "Contacter un expert",
-      action: contactExpert,
+      action: () => {},
       features: [
         "Tout du plan Pro",
         "Revue de dossier humaine (2 / mois)",
@@ -155,9 +158,18 @@ function Tarifs() {
                 ))}
               </ul>
               <div className="mt-6">
-                <Button onClick={p.action} className={`w-full ${p.featured ? "bg-gold-gradient text-accent-foreground hover:opacity-95" : ""}`} variant={p.featured ? "default" : "outline"}>
-                  {p.cta}
-                </Button>
+                {p.name === "Expert" ? (
+                  <div className="space-y-2">
+                    <Button asChild className="w-full" variant="outline">
+                      <a href="mailto:contact@gungueconsulting.com?subject=Demande plan Expert - AO Insights Africa">Contacter par email</a>
+                    </Button>
+                    <Button onClick={() => setExpertOpen(true)} className="w-full bg-gold-gradient text-accent-foreground hover:opacity-95">Formulaire</Button>
+                  </div>
+                ) : (
+                  <Button onClick={p.action} className={`w-full ${p.featured ? "bg-gold-gradient text-accent-foreground hover:opacity-95" : ""}`} variant={p.featured ? "default" : "outline"}>
+                    {p.cta}
+                  </Button>
+                )}
                 {p.ctaSubtitle && (
                   <p className="mt-2 text-xs text-center text-muted-foreground">{p.ctaSubtitle}</p>
                 )}
@@ -238,6 +250,50 @@ function Tarifs() {
               <DialogFooter>
                 <Button variant="outline" onClick={() => setOpen(false)}>Annuler</Button>
                 <Button onClick={submit} className="bg-gold-gradient text-accent-foreground hover:opacity-95" disabled={!form.email || !form.prenom || !form.phone}>Confirmer</Button>
+              </DialogFooter>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={expertOpen} onOpenChange={setExpertOpen}>
+        <DialogContent>
+          {expertConfirmed ? (
+            <>
+              <DialogHeader>
+                <DialogTitle>Demande envoyée</DialogTitle>
+                <DialogDescription>
+                  Merci pour votre message. Notre équipe vous recontactera sous 24h.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button onClick={() => setExpertOpen(false)} className="bg-gold-gradient text-accent-foreground hover:opacity-95">Fermer</Button>
+              </DialogFooter>
+            </>
+          ) : (
+            <>
+              <DialogHeader>
+                <DialogTitle>Contacter Gunguë Consulting</DialogTitle>
+                <DialogDescription asChild>
+                  <div className="text-sm text-muted-foreground leading-relaxed">
+                    Décrivez votre besoin et nous vous recontacterons sous 24h.
+                    <span className="block mt-2">
+                      Ou écrivez-nous directement à{" "}
+                      <a href="mailto:contact@gungueconsulting.com?subject=Demande plan Expert - AO Insights Africa" className="text-accent underline">
+                        contact@gungueconsulting.com
+                      </a>
+                    </span>
+                  </div>
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-3">
+                <div><Label>Nom</Label><Input value={expertForm.nom} onChange={(e) => setExpertForm({ ...expertForm, nom: e.target.value })} className="mt-1" /></div>
+                <div><Label>Email</Label><Input type="email" value={expertForm.email} onChange={(e) => setExpertForm({ ...expertForm, email: e.target.value })} className="mt-1" /></div>
+                <div><Label>Message</Label><Textarea value={expertForm.message} onChange={(e) => setExpertForm({ ...expertForm, message: e.target.value })} className="mt-1" rows={4} /></div>
+              </div>
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setExpertOpen(false)}>Annuler</Button>
+                <Button onClick={submitExpert} className="bg-gold-gradient text-accent-foreground hover:opacity-95" disabled={!expertForm.email || !expertForm.nom || !expertForm.message}>Envoyer</Button>
               </DialogFooter>
             </>
           )}
