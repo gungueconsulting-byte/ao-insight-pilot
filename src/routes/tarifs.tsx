@@ -122,7 +122,7 @@ function Tarifs() {
       subtitle: "Pour les acteurs qui veulent un accompagnement sur mesure",
       featured: false,
       cta: "Contacter un expert",
-      action: contactExpert,
+      action: () => {},
       features: [
         "Tout du plan Pro",
         "Revue de dossier humaine (2 / mois)",
