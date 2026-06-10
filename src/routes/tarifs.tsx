@@ -158,9 +158,18 @@ function Tarifs() {
                 ))}
               </ul>
               <div className="mt-6">
-                <Button onClick={p.action} className={`w-full ${p.featured ? "bg-gold-gradient text-accent-foreground hover:opacity-95" : ""}`} variant={p.featured ? "default" : "outline"}>
-                  {p.cta}
-                </Button>
+                {p.name === "Expert" ? (
+                  <div className="space-y-2">
+                    <Button asChild className="w-full" variant="outline">
+                      <a href="mailto:contact@gungueconsulting.com?subject=Demande plan Expert - AO Insights Africa">Contacter par email</a>
+                    </Button>
+                    <Button onClick={() => setExpertOpen(true)} className="w-full bg-gold-gradient text-accent-foreground hover:opacity-95">Formulaire</Button>
+                  </div>
+                ) : (
+                  <Button onClick={p.action} className={`w-full ${p.featured ? "bg-gold-gradient text-accent-foreground hover:opacity-95" : ""}`} variant={p.featured ? "default" : "outline"}>
+                    {p.cta}
+                  </Button>
+                )}
                 {p.ctaSubtitle && (
                   <p className="mt-2 text-xs text-center text-muted-foreground">{p.ctaSubtitle}</p>
                 )}
