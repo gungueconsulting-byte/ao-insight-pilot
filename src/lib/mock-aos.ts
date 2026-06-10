@@ -1,4 +1,15 @@
-export type Bailleur = "BM" | "BAD" | "PNUD" | "UE" | "AFD" | "GIZ" | "Gouvernement" | "Autre";
+export type Bailleur =
+  | "BM"
+  | "BAD"
+  | "PNUD"
+  | "UE"
+  | "AFD"
+  | "GIZ"
+  | "USAID"
+  | "UNICEF"
+  | "BOAD"
+  | "Gouvernement"
+  | "Autre";
 export type Pays =
   | "Sénégal"
   | "Côte d'Ivoire"
@@ -18,6 +29,7 @@ export type Secteur =
   | "Numérique"
   | "Environnement"
   | "Gouvernance"
+  | "Eau et Assainissement"
   | "Autre";
 export type TypeMarche = "Travaux" | "Services" | "Fournitures" | "Consulting";
 
@@ -52,6 +64,9 @@ export const BAILLEUR_COLORS: Record<Bailleur, string> = {
   UE: "bg-indigo-100 text-indigo-900 border-indigo-200",
   AFD: "bg-rose-100 text-rose-900 border-rose-200",
   GIZ: "bg-amber-100 text-amber-900 border-amber-200",
+  USAID: "bg-red-100 text-red-900 border-red-200",
+  UNICEF: "bg-cyan-100 text-cyan-900 border-cyan-200",
+  BOAD: "bg-teal-100 text-teal-900 border-teal-200",
   Gouvernement: "bg-slate-200 text-slate-900 border-slate-300",
   Autre: "bg-muted text-foreground border-border",
 };
