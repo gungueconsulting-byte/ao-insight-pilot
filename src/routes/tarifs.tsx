@@ -256,6 +256,50 @@ function Tarifs() {
         </DialogContent>
       </Dialog>
 
+      <Dialog open={expertOpen} onOpenChange={setExpertOpen}>
+        <DialogContent>
+          {expertConfirmed ? (
+            <>
+              <DialogHeader>
+                <DialogTitle>Demande envoyée</DialogTitle>
+                <DialogDescription>
+                  Merci pour votre message. Notre équipe vous recontactera sous 24h.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button onClick={() => setExpertOpen(false)} className="bg-gold-gradient text-accent-foreground hover:opacity-95">Fermer</Button>
+              </DialogFooter>
+            </>
+          ) : (
+            <>
+              <DialogHeader>
+                <DialogTitle>Contacter Gunguë Consulting</DialogTitle>
+                <DialogDescription asChild>
+                  <div className="text-sm text-muted-foreground leading-relaxed">
+                    Décrivez votre besoin et nous vous recontacterons sous 24h.
+                    <span className="block mt-2">
+                      Ou écrivez-nous directement à{" "}
+                      <a href="mailto:contact@gungueconsulting.com?subject=Demande plan Expert - AO Insights Africa" className="text-accent underline">
+                        contact@gungueconsulting.com
+                      </a>
+                    </span>
+                  </div>
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-3">
+                <div><Label>Nom</Label><Input value={expertForm.nom} onChange={(e) => setExpertForm({ ...expertForm, nom: e.target.value })} className="mt-1" /></div>
+                <div><Label>Email</Label><Input type="email" value={expertForm.email} onChange={(e) => setExpertForm({ ...expertForm, email: e.target.value })} className="mt-1" /></div>
+                <div><Label>Message</Label><Textarea value={expertForm.message} onChange={(e) => setExpertForm({ ...expertForm, message: e.target.value })} className="mt-1" rows={4} /></div>
+              </div>
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setExpertOpen(false)}>Annuler</Button>
+                <Button onClick={submitExpert} className="bg-gold-gradient text-accent-foreground hover:opacity-95" disabled={!expertForm.email || !expertForm.nom || !expertForm.message}>Envoyer</Button>
+              </DialogFooter>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+
       <SiteFooter />
     </div>
   );
