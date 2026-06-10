@@ -18,7 +18,9 @@ export function SiteFooter() {
               Trouvez, analysez et remportez vos prochains marchés.
             </p>
             <p className="mt-6 text-xs text-white/50">
-              Plateforme copilote développée par <span className="text-accent font-medium">Gunguë Consulting</span> — Dakar, Sénégal
+              <a href="https://www.gungueconsulting.com" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+                Plateforme copilote développée par <span className="text-accent font-medium">Gunguë Consulting</span> — Dakar, Sénégal
+              </a>
             </p>
           </div>
           <div>
@@ -37,7 +39,7 @@ export function SiteFooter() {
               <li><a href="#" className="hover:text-accent">CGU</a></li>
             </ul>
             <div className="mt-4 flex gap-3 text-white/60">
-              <a href="#" aria-label="LinkedIn"><Linkedin className="h-4 w-4 hover:text-accent" /></a>
+              <a href="https://www.linkedin.com/company/106016066/admin/dashboard/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><Linkedin className="h-4 w-4 hover:text-accent" /></a>
               <a href="#" aria-label="Twitter"><Twitter className="h-4 w-4 hover:text-accent" /></a>
               <a href="#" aria-label="Facebook"><Facebook className="h-4 w-4 hover:text-accent" /></a>
             </div>
