@@ -344,10 +344,23 @@ export const SECTEUR_LIST: Secteur[] = [
   "Numérique",
   "Environnement",
   "Gouvernance",
+  "Eau et Assainissement",
   "Autre",
 ];
 
-export const BAILLEUR_LIST: Bailleur[] = ["BM", "BAD", "PNUD", "UE", "AFD", "GIZ", "Gouvernement", "Autre"];
+export const BAILLEUR_LIST: Bailleur[] = [
+  "BM",
+  "BAD",
+  "PNUD",
+  "UE",
+  "AFD",
+  "GIZ",
+  "USAID",
+  "UNICEF",
+  "BOAD",
+  "Gouvernement",
+  "Autre",
+];
 
 export const TYPE_LIST: TypeMarche[] = ["Travaux", "Services", "Fournitures", "Consulting"];
 
