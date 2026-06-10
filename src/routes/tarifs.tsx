@@ -44,6 +44,9 @@ function Tarifs() {
   const [open, setOpen] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const [form, setForm] = useState({ prenom: "", email: "", phone: "" });
+  const [expertOpen, setExpertOpen] = useState(false);
+  const [expertConfirmed, setExpertConfirmed] = useState(false);
+  const [expertForm, setExpertForm] = useState({ nom: "", email: "", message: "" });
 
   const startFree = () => {
     if (user) navigate({ to: "/dashboard" });
