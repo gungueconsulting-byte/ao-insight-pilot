@@ -58,6 +58,7 @@ function Profil() {
                 onClick={() => {
                   if (typeof window !== "undefined") localStorage.setItem("ao_profile_setup", "1");
                   toast.success("Profil enregistré");
+                  navigate({ to: "/dashboard" });
                 }}
                 className="bg-gold-gradient text-accent-foreground hover:opacity-95"
               >
