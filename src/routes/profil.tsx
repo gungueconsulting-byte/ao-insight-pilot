@@ -173,8 +173,11 @@ function Step3() {
     <div className="space-y-4">
       <h2 className="font-display text-lg font-semibold">Vos références</h2>
       <div>
-        <Label>CV (PDF)</Label>
+        <Label>CV (PDF) — optionnel</Label>
         <Input type="file" accept=".pdf" className="mt-1" />
+        <p className="text-xs text-muted-foreground mt-1.5">
+          Vous pourrez ajouter votre CV plus tard depuis votre profil.
+        </p>
       </div>
       {[1, 2, 3].map((i) => (
         <div key={i} className="rounded-lg border border-border p-4">
