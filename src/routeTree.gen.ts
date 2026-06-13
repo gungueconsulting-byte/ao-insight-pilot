@@ -19,6 +19,9 @@ import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppelsOffresIndexRouteImport } from './routes/appels-offres.index'
 import { Route as AppelsOffresIdRouteImport } from './routes/appels-offres.$id'
+import { Route as CGURouteImport } from './routes/cgu'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as AProposRouteImport } from './routes/a-propos'
 
 const TarifsRoute = TarifsRouteImport.update({
   id: '/tarifs',
@@ -65,6 +68,21 @@ const AppelsOffresIndexRoute = AppelsOffresIndexRouteImport.update({
   path: '/appels-offres/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CGURoute = CGURouteImport.update({
+  id: '/cgu',
+  path: '/cgu',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AProposRoute = AProposRouteImport.update({
+  id: '/a-propos',
+  path: '/a-propos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppelsOffresIdRoute = AppelsOffresIdRouteImport.update({
   id: '/appels-offres/$id',
   path: '/appels-offres/$id',
@@ -79,6 +97,9 @@ export interface FileRoutesByFullPath {
   '/profil': typeof ProfilRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/cgu': typeof CGURoute
+  '/contact': typeof ContactRoute
+  '/a-propos': typeof AProposRoute
   '/tarifs': typeof TarifsRoute
   '/appels-offres/$id': typeof AppelsOffresIdRoute
   '/appels-offres/': typeof AppelsOffresIndexRoute
@@ -91,6 +112,9 @@ export interface FileRoutesByTo {
   '/profil': typeof ProfilRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/cgu': typeof CGURoute
+  '/contact': typeof ContactRoute
+  '/a-propos': typeof AProposRoute
   '/tarifs': typeof TarifsRoute
   '/appels-offres/$id': typeof AppelsOffresIdRoute
   '/appels-offres': typeof AppelsOffresIndexRoute
@@ -104,6 +128,9 @@ export interface FileRoutesById {
   '/profil': typeof ProfilRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/cgu': typeof CGURoute
+  '/contact': typeof ContactRoute
+  '/a-propos': typeof AProposRoute
   '/tarifs': typeof TarifsRoute
   '/appels-offres/$id': typeof AppelsOffresIdRoute
   '/appels-offres/': typeof AppelsOffresIndexRoute
@@ -244,6 +271,9 @@ const rootRouteChildren: RootRouteChildren = {
   RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   TarifsRoute: TarifsRoute,
+  CGURoute: CGURoute,
+  ContactRoute: ContactRoute,
+  AProposRoute: AProposRoute,
   AppelsOffresIdRoute: AppelsOffresIdRoute,
   AppelsOffresIndexRoute: AppelsOffresIndexRoute,
 }

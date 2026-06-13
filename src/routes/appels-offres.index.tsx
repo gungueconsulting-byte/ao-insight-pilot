@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Fragment, useMemo, useState } from "react";
+import { Fragment, useMemo } from "react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { AOCard } from "@/components/ao-card";
@@ -19,6 +19,8 @@ import {
 } from "@/lib/mock-aos";
 import { useAuth } from "@/lib/auth";
 import { Filter, Search, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/appels-offres/")({
   head: () => ({
@@ -45,8 +47,22 @@ function Chip({ active, onClick, children }: { active: boolean; onClick: () => v
   );
 }
 
+function useAOCount() {
+  const [count, setCount] = useState<number | null>(null);
+  useEffect(() => {
+    supabase
+      .from("aos")
+      .select("*", { count: "exact", head: true })
+      .then(({ count: c }) => {
+        if (c !== null) setCount(c);
+      });
+  }, []);
+  return count;
+}
+
 function ListPage() {
   const { user } = useAuth();
+  const aoCount = useAOCount();
   const [search, setSearch] = useState("");
   const [pays, setPays] = useState<Pays[]>([]);
   const [secteurs, setSecteurs] = useState<Secteur[]>([]);
@@ -94,7 +110,7 @@ function ListPage() {
               <p className="mt-2 text-sm text-muted-foreground">
                 <span className="inline-flex items-center gap-1.5">
                   <span className="h-2 w-2 rounded-full bg-success animate-pulse" />
-                  <span className="font-semibold text-foreground">247 AO actifs</span> aujourd'hui
+                  <span className="font-semibold text-foreground">{aoCount !== null ? `${aoCount} AO actifs` : "AO actifs"}</span> aujourd'hui
                 </span>
               </p>
             </div>

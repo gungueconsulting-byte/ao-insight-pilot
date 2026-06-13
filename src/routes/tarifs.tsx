@@ -12,6 +12,8 @@ import { Check, X } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/lib/auth";
 
+const WHATSAPP_EXPERT = "https://wa.me/221775930174?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20le%20plan%20Expert%20d%27AO%20Insights%20Africa.";
+
 export const Route = createFileRoute("/tarifs")({
   head: () => ({
     meta: [
@@ -159,12 +161,14 @@ function Tarifs() {
               </ul>
               <div className="mt-6">
                 {p.name === "Expert" ? (
-                  <div className="space-y-2">
-                    <Button asChild className="w-full" variant="outline">
-                      <a href="mailto:contact@gungueconsulting.com?subject=Demande plan Expert - AO Insights Africa">Contacter par email</a>
-                    </Button>
-                    <Button onClick={() => setExpertOpen(true)} className="w-full bg-gold-gradient text-accent-foreground hover:opacity-95">Formulaire</Button>
-                  </div>
+                  <a
+                    href={WHATSAPP_EXPERT}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-0 w-full inline-flex items-center justify-center rounded-md border border-border bg-background px-4 py-2 text-sm font-medium hover:bg-muted transition-colors"
+                  >
+                    Contacter Gunguë sur WhatsApp
+                  </a>
                 ) : (
                   <Button onClick={p.action} className={`w-full ${p.featured ? "bg-gold-gradient text-accent-foreground hover:opacity-95" : ""}`} variant={p.featured ? "default" : "outline"}>
                     {p.cta}

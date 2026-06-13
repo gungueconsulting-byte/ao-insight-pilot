@@ -178,3 +178,11 @@
   .shadow-card-soft { box-shadow: var(--shadow-card); }
   .text-balance { text-wrap: balance; }
 }
+
+/* Hide Lovable edit badge */
+a[href*="lovable.dev"],
+[data-lovable-badge],
+iframe[src*="lovable"] {
+  display: none !important;
+}
+

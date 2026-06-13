@@ -1,8 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Check, FileText, Sparkles, Target, Zap } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -18,7 +20,24 @@ export const Route = createFileRoute("/")({
 
 const BAILLEURS = ["BM", "BAD", "PNUD", "UE", "AFD", "GIZ", "ARMP", "DGMP Sénégal", "ANRMP Côte d'Ivoire"];
 
+const WHATSAPP_EXPERT = "https://wa.me/221775930174?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20le%20plan%20Expert%20d%27AO%20Insights%20Africa.";
+
+function useAOCount() {
+  const [count, setCount] = useState<number | null>(null);
+  useEffect(() => {
+    supabase
+      .from("aos")
+      .select("*", { count: "exact", head: true })
+      .then(({ count: c }) => {
+        if (c !== null) setCount(c);
+      });
+  }, []);
+  return count;
+}
+
 function Index() {
+  const aoCount = useAOCount();
+
   return (
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
@@ -59,7 +78,10 @@ function Index() {
               </Button>
             </div>
             <div className="mt-10 flex flex-wrap gap-6 text-sm text-white/65">
-              <span className="inline-flex items-center gap-2"><Check className="h-4 w-4 text-success" /> 247 AO actifs aujourd'hui</span>
+              <span className="inline-flex items-center gap-2">
+                <Check className="h-4 w-4 text-success" />
+                {aoCount !== null ? `${aoCount} AO actifs aujourd'hui` : "AO actifs aujourd'hui"}
+              </span>
               <span className="inline-flex items-center gap-2"><Check className="h-4 w-4 text-success" /> 10 pays couverts</span>
               <span className="inline-flex items-center gap-2"><Check className="h-4 w-4 text-success" /> 8 bailleurs majeurs</span>
             </div>
@@ -140,9 +162,9 @@ function Index() {
         </div>
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {[
-            { name: "Gratuit", price: "0", desc: "Pour découvrir la plateforme", features: ["Veille AO basique", "3 détails / jour", "Recherche par mots-clés"], cta: "Commencer", to: "/register", featured: false },
-            { name: "Pro", price: "15 000", desc: "Pour les soumissionnaires actifs", features: ["Veille illimitée", "Score de pertinence IA", "Assistant rédaction illimité", "Alertes email"], cta: "Démarrer le Pro", to: "/tarifs", featured: true },
-            { name: "Expert", price: "30 000", desc: "Pour gagner les gros marchés", features: ["Tout du Pro", "Revue dossier humaine 2/mois", "Support prioritaire", "Onboarding personnalisé"], cta: "Contacter Gunguë", to: "/tarifs", featured: false },
+            { name: "Gratuit", price: "0", desc: "Pour découvrir la plateforme", features: ["Veille AO basique", "3 détails / jour", "Recherche par mots-clés"], cta: "Commencer", href: "/register", isWhatsApp: false, featured: false },
+            { name: "Pro", price: "15 000", desc: "Pour les soumissionnaires actifs", features: ["Veille illimitée", "Score de pertinence IA", "Assistant rédaction illimité", "Alertes email"], cta: "Démarrer le Pro", href: "/tarifs", isWhatsApp: false, featured: true },
+            { name: "Expert", price: "30 000", desc: "Pour gagner les gros marchés", features: ["Tout du Pro", "Revue dossier humaine 2/mois", "Support prioritaire", "Onboarding personnalisé"], cta: "Contacter Gunguë", href: WHATSAPP_EXPERT, isWhatsApp: true, featured: false },
           ].map((p) => (
             <div key={p.name} className={`relative rounded-2xl border p-8 ${p.featured ? "border-accent bg-card shadow-elegant scale-[1.02]" : "border-border bg-card shadow-card-soft"}`}>
               {p.featured && (
@@ -163,9 +185,20 @@ function Index() {
                   </li>
                 ))}
               </ul>
-              <Button asChild className={`mt-7 w-full ${p.featured ? "bg-gold-gradient text-accent-foreground hover:opacity-95" : ""}`} variant={p.featured ? "default" : "outline"}>
-                <Link to={p.to}>{p.cta}</Link>
-              </Button>
+              {p.isWhatsApp ? (
+                <a
+                  href={p.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-7 w-full inline-flex items-center justify-center rounded-md border border-border bg-background px-4 py-2 text-sm font-medium hover:bg-muted transition-colors"
+                >
+                  {p.cta}
+                </a>
+              ) : (
+                <Button asChild className={`mt-7 w-full ${p.featured ? "bg-gold-gradient text-accent-foreground hover:opacity-95" : ""}`} variant={p.featured ? "default" : "outline"}>
+                  <Link to={p.href as any}>{p.cta}</Link>
+                </Button>
+              )}
             </div>
           ))}
         </div>

@@ -1067,10 +1067,25 @@ export const BAILLEUR_LIST: Bailleur[] = [
 
 export const TYPE_LIST: TypeMarche[] = ["Travaux", "Services", "Fournitures", "Consulting"];
 
+// Handles ISO strings AND Unix timestamps in seconds (Supabase may return either)
+const parseDate = (val: string | number): Date => {
+  if (typeof val === "number") {
+    // If timestamp is in seconds (Unix), convert to ms
+    return new Date(val < 1e10 ? val * 1000 : val);
+  }
+  const d = new Date(val);
+  // If year < 2000, assume it's a Unix timestamp stored as string
+  if (d.getFullYear() < 2000) {
+    const num = Number(val);
+    if (!isNaN(num)) return new Date(num < 1e10 ? num * 1000 : num);
+  }
+  return d;
+};
+
 export const daysUntil = (iso: string) => {
-  const ms = new Date(iso).getTime() - Date.now();
+  const ms = parseDate(iso).getTime() - Date.now();
   return Math.ceil(ms / (1000 * 60 * 60 * 24));
 };
 
 export const formatDate = (iso: string) =>
-  new Date(iso).toLocaleDateString("fr-FR", { day: "2-digit", month: "short", year: "numeric" });
+  parseDate(iso).toLocaleDateString("fr-FR", { day: "2-digit", month: "short", year: "numeric" });

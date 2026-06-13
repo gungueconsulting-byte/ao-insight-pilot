@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Facebook, Linkedin, Twitter } from "lucide-react";
+import { Linkedin } from "lucide-react";
 
 export function SiteFooter() {
   return (
@@ -34,14 +34,14 @@ export function SiteFooter() {
           <div>
             <h4 className="font-display font-semibold text-sm mb-3">Légal</h4>
             <ul className="space-y-2 text-sm text-white/70">
-              <li><a href="#" className="hover:text-accent">À propos</a></li>
-              <li><a href="#" className="hover:text-accent">Contact</a></li>
-              <li><a href="#" className="hover:text-accent">CGU</a></li>
+              <li><Link to="/a-propos" className="hover:text-accent">À propos</Link></li>
+              <li><Link to="/contact" className="hover:text-accent">Contact</Link></li>
+              <li><Link to="/cgu" className="hover:text-accent">CGU</Link></li>
             </ul>
             <div className="mt-4 flex gap-3 text-white/60">
-              <a href="https://www.linkedin.com/company/106016066/admin/dashboard/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><Linkedin className="h-4 w-4 hover:text-accent" /></a>
-              <a href="#" aria-label="Twitter"><Twitter className="h-4 w-4 hover:text-accent" /></a>
-              <a href="#" aria-label="Facebook"><Facebook className="h-4 w-4 hover:text-accent" /></a>
+              <a href="https://www.linkedin.com/company/106016066/admin/dashboard/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <Linkedin className="h-4 w-4 hover:text-accent" />
+              </a>
             </div>
           </div>
         </div>
