@@ -57,7 +57,7 @@ function CGU() {
               la pertinence des recommandations. Ces données ne sont pas transmises à des tiers sans consentement
               explicite de l'utilisateur. Conformément à la loi n°2008-12 du 25 janvier 2008 sur la protection des
               données personnelles au Sénégal, l'utilisateur dispose d'un droit d'accès, de rectification et de
-              suppression de ses données en contactant oumar.nguirane@gungueconsulting.com.
+              suppression de ses données en contactant contact@gungueconsulting.com.
             </p>
           </section>
 
@@ -86,7 +86,7 @@ function CGU() {
             <h2 className="font-display text-lg font-semibold mb-3">7. Contact</h2>
             <p>
               Pour toute question relative aux présentes CGU, vous pouvez contacter Gunguë Consulting à l'adresse
-              suivante : <a href="mailto:oumar.nguirane@gungueconsulting.com" className="text-accent underline">oumar.nguirane@gungueconsulting.com</a>
+              suivante : <a href="mailto:contact@gungueconsulting.com" className="text-accent underline">contact@gungueconsulting.com</a>
             </p>
           </section>
 

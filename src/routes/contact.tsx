@@ -24,7 +24,7 @@ function Contact() {
       return;
     }
     // Ouvre le client email avec les données pré-remplies
-    const mailto = `mailto:oumar.nguirane@gungueconsulting.com?subject=Message de ${encodeURIComponent(form.nom)} via AO Insights Africa&body=${encodeURIComponent(form.message)}%0A%0A-- %0A${encodeURIComponent(form.nom)}%0A${encodeURIComponent(form.email)}`;
+    const mailto = `mailto:contact@gungueconsulting.com?subject=Message de ${encodeURIComponent(form.nom)} via AO Insights Africa&body=${encodeURIComponent(form.message)}%0A%0A-- %0A${encodeURIComponent(form.nom)}%0A${encodeURIComponent(form.email)}`;
     window.open(mailto, "_blank");
     setSent(true);
     toast.success("Votre client email s'est ouvert. Envoyez le message pour nous contacter.");
@@ -44,8 +44,8 @@ function Contact() {
               <Mail className="h-5 w-5 text-accent mt-0.5 shrink-0" />
               <div>
                 <p className="font-medium text-sm">Email</p>
-                <a href="mailto:oumar.nguirane@gungueconsulting.com" className="text-sm text-accent underline">
-                  oumar.nguirane@gungueconsulting.com
+                <a href="mailto:contact@gungueconsulting.com" className="text-sm text-accent underline">
+                  contact@gungueconsulting.com
                 </a>
               </div>
             </div>

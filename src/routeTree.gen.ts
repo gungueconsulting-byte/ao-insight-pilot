@@ -15,13 +15,13 @@ import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ProfilRouteImport } from './routes/profil'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CguRouteImport } from './routes/cgu'
 import { Route as AssistantRouteImport } from './routes/assistant'
+import { Route as AProposRouteImport } from './routes/a-propos'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppelsOffresIndexRouteImport } from './routes/appels-offres.index'
 import { Route as AppelsOffresIdRouteImport } from './routes/appels-offres.$id'
-import { Route as CGURouteImport } from './routes/cgu'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as AProposRouteImport } from './routes/a-propos'
 
 const TarifsRoute = TarifsRouteImport.update({
   id: '/tarifs',
@@ -53,9 +53,24 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CguRoute = CguRouteImport.update({
+  id: '/cgu',
+  path: '/cgu',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AssistantRoute = AssistantRouteImport.update({
   id: '/assistant',
   path: '/assistant',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AProposRoute = AProposRouteImport.update({
+  id: '/a-propos',
+  path: '/a-propos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -68,21 +83,6 @@ const AppelsOffresIndexRoute = AppelsOffresIndexRouteImport.update({
   path: '/appels-offres/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CGURoute = CGURouteImport.update({
-  id: '/cgu',
-  path: '/cgu',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AProposRoute = AProposRouteImport.update({
-  id: '/a-propos',
-  path: '/a-propos',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AppelsOffresIdRoute = AppelsOffresIdRouteImport.update({
   id: '/appels-offres/$id',
   path: '/appels-offres/$id',
@@ -91,30 +91,30 @@ const AppelsOffresIdRoute = AppelsOffresIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/a-propos': typeof AProposRoute
   '/assistant': typeof AssistantRoute
+  '/cgu': typeof CguRoute
+  '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/profil': typeof ProfilRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/cgu': typeof CGURoute
-  '/contact': typeof ContactRoute
-  '/a-propos': typeof AProposRoute
   '/tarifs': typeof TarifsRoute
   '/appels-offres/$id': typeof AppelsOffresIdRoute
   '/appels-offres/': typeof AppelsOffresIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/a-propos': typeof AProposRoute
   '/assistant': typeof AssistantRoute
+  '/cgu': typeof CguRoute
+  '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/profil': typeof ProfilRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/cgu': typeof CGURoute
-  '/contact': typeof ContactRoute
-  '/a-propos': typeof AProposRoute
   '/tarifs': typeof TarifsRoute
   '/appels-offres/$id': typeof AppelsOffresIdRoute
   '/appels-offres': typeof AppelsOffresIndexRoute
@@ -122,15 +122,15 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/a-propos': typeof AProposRoute
   '/assistant': typeof AssistantRoute
+  '/cgu': typeof CguRoute
+  '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/profil': typeof ProfilRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/cgu': typeof CGURoute
-  '/contact': typeof ContactRoute
-  '/a-propos': typeof AProposRoute
   '/tarifs': typeof TarifsRoute
   '/appels-offres/$id': typeof AppelsOffresIdRoute
   '/appels-offres/': typeof AppelsOffresIndexRoute
@@ -139,7 +139,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/a-propos'
     | '/assistant'
+    | '/cgu'
+    | '/contact'
     | '/dashboard'
     | '/login'
     | '/profil'
@@ -151,7 +154,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/a-propos'
     | '/assistant'
+    | '/cgu'
+    | '/contact'
     | '/dashboard'
     | '/login'
     | '/profil'
@@ -163,7 +169,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/a-propos'
     | '/assistant'
+    | '/cgu'
+    | '/contact'
     | '/dashboard'
     | '/login'
     | '/profil'
@@ -176,7 +185,10 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AProposRoute: typeof AProposRoute
   AssistantRoute: typeof AssistantRoute
+  CguRoute: typeof CguRoute
+  ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRoute
   LoginRoute: typeof LoginRoute
   ProfilRoute: typeof ProfilRoute
@@ -231,11 +243,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cgu': {
+      id: '/cgu'
+      path: '/cgu'
+      fullPath: '/cgu'
+      preLoaderRoute: typeof CguRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/assistant': {
       id: '/assistant'
       path: '/assistant'
       fullPath: '/assistant'
       preLoaderRoute: typeof AssistantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/a-propos': {
+      id: '/a-propos'
+      path: '/a-propos'
+      fullPath: '/a-propos'
+      preLoaderRoute: typeof AProposRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -264,19 +297,29 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AProposRoute: AProposRoute,
   AssistantRoute: AssistantRoute,
+  CguRoute: CguRoute,
+  ContactRoute: ContactRoute,
   DashboardRoute: DashboardRoute,
   LoginRoute: LoginRoute,
   ProfilRoute: ProfilRoute,
   RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   TarifsRoute: TarifsRoute,
-  CGURoute: CGURoute,
-  ContactRoute: ContactRoute,
-  AProposRoute: AProposRoute,
   AppelsOffresIdRoute: AppelsOffresIdRoute,
   AppelsOffresIndexRoute: AppelsOffresIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

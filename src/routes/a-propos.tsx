@@ -39,8 +39,8 @@ function APropos() {
             <p className="text-muted-foreground">Cabinet de conseil stratégique — Dakar, Sénégal</p>
             <p className="text-muted-foreground">
               Contact :{" "}
-              <a href="mailto:oumar.nguirane@gungueconsulting.com" className="text-accent underline">
-                oumar.nguirane@gungueconsulting.com
+              <a href="mailto:contact@gungueconsulting.com" className="text-accent underline">
+                contact@gungueconsulting.com
               </a>
             </p>
             <a href="https://www.gungueconsulting.com" target="_blank" rel="noopener noreferrer" className="text-accent underline text-sm">
